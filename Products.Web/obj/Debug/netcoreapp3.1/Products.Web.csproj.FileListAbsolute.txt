@@ -81,3 +81,8 @@ C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Products.
 C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Products.Web.dll
 C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Products.Web.pdb
 C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Products.Web.genruntimeconfig.cache
+C:\Users\PC\source\repos\Products\Products.Web\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Users\PC\source\repos\Products\Products.Web\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Index.cshtml.g.cs
+C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Create.cshtml.g.cs
+C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Update.cshtml.g.cs

@@ -10,3 +10,6 @@ C:\Users\PC\source\repos\Products\Products.Services\obj\Debug\netcoreapp3.1\Prod
 C:\Users\PC\source\repos\Products\Products.Services\obj\Debug\netcoreapp3.1\Products.Services.dll
 C:\Users\PC\source\repos\Products\Products.Services\obj\Debug\netcoreapp3.1\Products.Services.pdb
 C:\Users\PC\source\repos\Products\Products.Services\obj\Debug\netcoreapp3.1\Products.Services.genruntimeconfig.cache
+C:\Users\PC\source\repos\Products\Products.Services\bin\Debug\netcoreapp3.1\Products.Data.dll
+C:\Users\PC\source\repos\Products\Products.Services\bin\Debug\netcoreapp3.1\Products.Data.pdb
+C:\Users\PC\source\repos\Products\Products.Services\obj\Debug\netcoreapp3.1\Products.Services.csproj.CopyComplete

@@ -1,0 +1,19 @@
+﻿@model Products.Web.Models.ProductIndexModelList
+
+<div>
+    @foreach(var product in Model.ProductList)
+    {
+    <a asp-controller="Product" asp-action="Update" asp-route-id="@product.ProductId">
+        <p style="margin-bottom: 10px">
+            @product.CategoryName
+            @product.Cost
+            @product.Description
+            @product.ProductName
+            @product.ManufacturerName
+            @product.ProductId
+        </p>
+    </a>
+        
+    }
+    <a asp-controller="Product" asp-action="Create" >Dodaj proizvod</a>
+</div>

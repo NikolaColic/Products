@@ -1,0 +1,22 @@
+﻿@model Products.Web.Models.ProductCreateModel
+
+<div>
+    <p style="margin-bottom:20px">
+        @foreach (var category in Model.Categories)
+        {
+            <h3>@category.Name</h3>
+        }
+    </p>
+    <p style="margin-bottom:20px">
+        @foreach (var category in Model.Manufactureres)
+        {
+            <h3>@category.ManufacturerName</h3>
+        }
+    </p>
+    <p style="margin-bottom:20px">
+        @foreach (var supplier in Model.Suppliers)
+        {
+            <h3>@supplier.SupplierName</h3>
+        }
+    </p>
+</div>

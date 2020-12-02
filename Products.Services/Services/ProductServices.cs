@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Products.Services.Services
 {
-    public class ProductServices : IProduct
+    public class ProductServices : IDataService<Product>
     {
         private readonly ProductDbContext _db;
         public ProductServices(ProductDbContext db)
@@ -160,6 +160,92 @@ namespace Products.Services.Services
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public async Task<IEnumerable<Product>> GetAll()
+        {
+            try
+            {
+                var products = await _db.Product
+                        .Include((p) => p.Category)
+                        .Include((p) => p.Manufacturer)
+                        .Include((p) => p.Supplier)
+                        .ToListAsync();
+                return products;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Product> GetById(int id)
+        {
+            try
+            {
+                var products = await _db.Product
+                        .Include((p) => p.Category)
+                        .Include((p) => p.Manufacturer)
+                        .Include((p) => p.Supplier)
+                        .SingleOrDefaultAsync((p) => p.ProductId == id);
+                return products;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task<bool> Add(Product obj)
+        {
+            try
+            {
+                obj = await SetObjects(obj);
+                if (obj is null) return false;
+                await _db.AddAsync(obj);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> Update(Product obj)
+        {
+            try
+            {
+                var productUpdate = await GetProductById(obj.ProductId);
+                if (productUpdate is null) return false;
+
+                obj = await SetObjects(obj);
+                if (obj is null) return false;
+
+                _db.Entry(productUpdate).CurrentValues.SetValues(obj);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            try
+            {
+                var productDelete = await GetProductById(id);
+                if (productDelete is null) return false;
+                _db.Entry(productDelete).State = EntityState.Deleted;
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

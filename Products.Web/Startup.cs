@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,8 +7,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Products.Data.Context;
+using Products.Data.Entities;
 using Products.Data.Interfaces;
 using Products.Services.Services;
+using Products.Web.Help;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +32,12 @@ namespace Products.Web
         {
             services.AddControllersWithViews();
             services.AddDbContext<ProductDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IProduct, ProductServices>();
+            services.AddAutoMapper(typeof(ProductProfile));
+            services.AddScoped<IDataService<Product>, ProductServices>();
+            services.AddScoped<IDataService<Category>, CategoryServices>();
+            services.AddScoped<IDataService<Manufacturer>, ManufacturerServices>();
+            services.AddScoped<IDataService<Supplier>, SupplierServices>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
