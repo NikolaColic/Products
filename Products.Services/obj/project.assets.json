@@ -1520,6 +1520,19 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Products.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Products.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Products.Data.dll": {}
+        }
       }
     }
   },
@@ -5771,13 +5784,19 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "Products.Data/1.0.0": {
+      "type": "project",
+      "path": "../Products.Data/Products.Data.csproj",
+      "msbuildProject": "../Products.Data/Products.Data.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.EntityFrameworkCore.Design >= 5.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.0",
-      "Microsoft.EntityFrameworkCore.Tools >= 5.0.0"
+      "Microsoft.EntityFrameworkCore.Tools >= 5.0.0",
+      "Products.Data >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5813,7 +5832,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\PC\\source\\repos\\Products\\Products.Data\\Products.Data.csproj": {
+              "projectPath": "C:\\Users\\PC\\source\\repos\\Products\\Products.Data\\Products.Data.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

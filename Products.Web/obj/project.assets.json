@@ -1538,7 +1538,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.0"
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.0",
+          "Products.Data": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Products.Services.dll": {}

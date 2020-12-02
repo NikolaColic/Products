@@ -109,7 +109,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\PC\\source\\repos\\Products\\Products.Data\\Products.Data.csproj": {
+                "projectPath": "C:\\Users\\PC\\source\\repos\\Products\\Products.Data\\Products.Data.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
