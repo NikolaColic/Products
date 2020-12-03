@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Products.Data.Entities;
 using Products.Data.Interfaces;
+using Products.Web.Help;
 using Products.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -33,15 +34,27 @@ namespace Products.Web.Controllers
         public async Task<ActionResult<ProductIndexModelList>> Index()
         {
             var products = await _product.GetAll();
+            if(products is null || products.Count() == 0)
+            {
+                var modelError = new ProductIndexModelList() { Validate = new ValidateModel { Poruka = "Lose ucitani proizvodi", Signal = false } };
+                return View(modelError);
+            }
+            var model = CreateIndexModel(products);
 
+
+            
+            return View(model);
+        }
+        private ProductIndexModelList CreateIndexModel (IEnumerable<Product> products)
+        {
             var productList = new List<ProductIndexModel>();
-            foreach(var product in products)
+            foreach (var product in products)
             {
                 var productModel = _mapper.Map<Product, ProductIndexModel>(product);
                 productList.Add(productModel);
             }
             var model = new ProductIndexModelList() { ProductList = productList };
-            return View(model);
+            return model;
         }
 
         
@@ -70,10 +83,35 @@ namespace Products.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ProductCreateModel productCreate)
         {
+
+            var model = await CreateProductModel(productCreate.Product);
+            if (!Validation.Instance.ValidateProduct(productCreate.Product))
+            {
+                model.Validate = new ValidateModel() { Poruka = "Pogresno ste unenli neku vrednost", Signal = false };
+                return View(model);
+            }
+            if (!(await ProductNameExist(productCreate.Product.ProductName,0)))
+            {
+                model.Validate = new ValidateModel() { Poruka = "Postoji vec proizvod sa datim imenom!", Signal = false };
+                return View(model);
+            }
             var response = await _product.Add(productCreate.Product);
-            if (response) return RedirectToAction("Index");
-            var model = CreateProductModel(productCreate.Product);
+
+            if (!response)
+            {
+                model.Validate = new ValidateModel() { Poruka = "Doslo je do greske prilikom unosa proizvoda!", Signal = false };
+                return View(model);
+            }
+            model.Validate = new ValidateModel() { Poruka = "Uspesno ste dodali proizvod!", Signal = false };
             return View(model);
+        }
+
+        private async Task<bool> ProductNameExist(string name, int? id)
+        {
+            var products = await _product.GetAll();
+            var product = products.SingleOrDefault((prod) => prod.ProductName == name && prod.ProductId != id );
+            if (product is null) return true;
+            return false;
         }
 
         public async Task<ActionResult> Update(int id)
@@ -88,9 +126,27 @@ namespace Products.Web.Controllers
         public async Task<ActionResult> Update(int id, ProductCreateModel productCreate)
         {
             productCreate.Product.ProductId = id;
-            var response = await _product.Update(productCreate.Product);
-            if (response) return RedirectToAction(nameof(Index));
             var model = await CreateProductModel(productCreate.Product);
+
+            if (!Validation.Instance.ValidateProduct(productCreate.Product))
+            {
+                model.Validate = new ValidateModel() { Poruka = "Pogresno ste unenli neku vrednost", Signal = false };
+                return View(model);
+            }
+            if (!(await ProductNameExist(productCreate.Product.ProductName, id)))
+            {
+                model.Validate = new ValidateModel() { Poruka = "Postoji vec proizvod sa datim imenom!", Signal = false };
+                return View(model);
+            }
+
+            var response = await _product.Update(productCreate.Product);
+            if (!response)
+            {
+                model.Validate = new ValidateModel() { Poruka = "Doslo je do greske prilikom izmene proizvoda!", Signal = false };
+                return View(model);
+            }
+
+            model.Validate = new ValidateModel() { Poruka = "Uspesno ste izmenili proizvod", Signal = true };
             return View(model);
 
         }

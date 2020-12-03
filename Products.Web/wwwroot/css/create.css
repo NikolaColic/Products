@@ -1,0 +1,67 @@
+﻿.opste {
+    min-height: 780px;
+    background-color: #116466;
+    opacity: 0.85;
+    align-content:center;
+    padding-left: 30%;
+    padding-right: 15%;
+    padding-top: 10%;
+    font-family: 'Open Sans', sans-serif;
+    font-size:18px;
+    letter-spacing: 1.5px;
+    word-spacing: 1px;
+    font-weight: 800;
+}
+
+.body {
+    width: 100%;
+    background-image: url("https://images.unsplash.com/photo-1586024844218-3fb8999ef6cf?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80");
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 780px;
+}
+.form-create{
+    padding-left:10%;
+    color:#ffcB9A;
+}
+.row {
+    margin-bottom:10px;
+}
+.form-control{
+    background-color: #d1e8e2;
+    color:#2c3531;
+    font-size:17px;
+}
+.title {
+    font-size: 40px;
+    color: #d9b08c;
+    letter-spacing: 2.5px;
+    word-spacing: 2px;
+    font-weight: 900;
+    margin-left:10%;
+    margin-bottom:5%;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+}
+
+.title-text {
+    color: #d9b08c;
+    font-weight: 900;
+}
+.createButton {
+    background-color:#d1e8e2;
+    color:#1f2833; 
+    font-size:15px;
+    font-weight:900;
+    height:45px; 
+    border: 2px solid #1f2833;
+    width:10%;
+}
+.footer{
+    background-color:#ffcb9a;
+    color:#1f2833;
+    font-size:15px; 
+    font-weight:900; 
+    letter-spacing: 2px;
+}
