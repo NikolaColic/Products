@@ -17,21 +17,7 @@ namespace Products.Services.Services
         {
             _db = db;
         }
-        public async Task<bool> AddProduct(Product product)
-        {
-            try
-            {
-                product = await SetObjects(product);
-                if (product is null) return false;
-                await _db.AddAsync(product);
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+       
         private async Task<Product> SetObjects(Product product)
         {
             try
@@ -50,117 +36,6 @@ namespace Products.Services.Services
                 return null;
             }
 
-        }
-
-        public async Task<bool> DeleteProduct(int id)
-        {
-            try
-            {
-                var productDelete = await GetProductById(id);
-                if (productDelete is null) return false;
-                _db.Entry(productDelete).State = EntityState.Deleted;
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task<IEnumerable<Product>> GetAllProducts()
-        {
-            try
-            {
-                var products = await _db.Product
-                        .Include((p) => p.Category)
-                        .Include((p) => p.Manufacturer)
-                        .Include((p) => p.Supplier)
-                        .ToListAsync();
-                return products;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public async Task<Product> GetProductById(int id)
-        {
-            try
-            {
-                var products = await _db.Product
-                        .Include((p) => p.Category)
-                        .Include((p) => p.Manufacturer)
-                        .Include((p) => p.Supplier)
-                        .SingleOrDefaultAsync((p) => p.ProductId == id);
-                return products;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public async Task<bool> UpdateProduct(Product product)
-        {
-            try
-            {
-                var productUpdate = await GetProductById(product.ProductId);
-                if (productUpdate is null) return false;
-
-                product = await SetObjects(product);
-                if (product is null) return false;
-
-                _db.Entry(productUpdate).CurrentValues.SetValues(product);
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-        }
-
-        public async Task<IEnumerable<Category>> GetAllCategories()
-        {
-            try
-            {
-                var categories = await _db.Category.ToListAsync();
-                return categories;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-        }
-
-        public async Task<IEnumerable<Manufacturer>> GetAllManufactureres()
-        {
-            try
-            {
-                var manu = await _db.Manufacturer.ToListAsync();
-                return manu;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public async Task<IEnumerable<Supplier>> GetAllSupplier()
-        {
-            try
-            {
-                var supp = await _db.Supplier.ToListAsync();
-                return supp;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
         }
 
         public async Task<IEnumerable<Product>> GetAll()
@@ -217,18 +92,22 @@ namespace Products.Services.Services
         {
             try
             {
-                var productUpdate = await GetProductById(obj.ProductId);
+                var productUpdate = await GetById(obj.ProductId);
                 if (productUpdate is null) return false;
 
                 obj = await SetObjects(obj);
                 if (obj is null) return false;
 
-                _db.Entry(productUpdate).CurrentValues.SetValues(obj);
+                //_db.Entry(productUpdate).CurrentValues.SetValues(obj);
+                _db.Entry(productUpdate).State = EntityState.Detached;
+
+                _db.Update(obj);
                 await _db.SaveChangesAsync();
                 return true;
             }
             catch (Exception)
             {
+                throw;
                 return false;
             }
         }
@@ -237,7 +116,7 @@ namespace Products.Services.Services
         {
             try
             {
-                var productDelete = await GetProductById(id);
+                var productDelete = await GetById(id);
                 if (productDelete is null) return false;
                 _db.Entry(productDelete).State = EntityState.Deleted;
                 await _db.SaveChangesAsync();

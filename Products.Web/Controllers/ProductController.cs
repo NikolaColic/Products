@@ -44,50 +44,18 @@ namespace Products.Web.Controllers
             return View(model);
         }
 
-        // GET: ProductController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        
 
-        // GET: ProductController/Create
         public async Task<ActionResult<ProductCreateModel>>Create()
         {
-            var category = await _category.GetAll();
-            var supplier = await _supplier.GetAll();
-            var manufacturer = await _manufacturer.GetAll();
-            var model = new ProductCreateModel()
-            {
-                Categories = category,
-                Manufactureres = manufacturer,
-                Product = new Product(),
-                Suppliers = supplier
-            };
+            var model = await CreateProductModel(new Product());
             return View(model);
         }
-
-        // POST: ProductController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ProductController/Edit/5
-        public async Task<ActionResult> Update(int id)
+        private async Task<ProductCreateModel> CreateProductModel(Product product)
         {
             var category = await _category.GetAll();
             var supplier = await _supplier.GetAll();
             var manufacturer = await _manufacturer.GetAll();
-            var product = await _product.GetById(id);
             var model = new ProductCreateModel()
             {
                 Categories = category,
@@ -95,31 +63,45 @@ namespace Products.Web.Controllers
                 Product = product,
                 Suppliers = supplier
             };
+            return model;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(ProductCreateModel productCreate)
+        {
+            var response = await _product.Add(productCreate.Product);
+            if (response) return RedirectToAction("Index");
+            var model = CreateProductModel(productCreate.Product);
             return View(model);
         }
 
-        // POST: ProductController/Edit/5
+        public async Task<ActionResult> Update(int id)
+        {
+            var product = await _product.GetById(id);
+            var model = await CreateProductModel(product);
+            return View(model);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Update(int id, ProductCreateModel productCreate)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            productCreate.Product.ProductId = id;
+            var response = await _product.Update(productCreate.Product);
+            if (response) return RedirectToAction(nameof(Index));
+            var model = await CreateProductModel(productCreate.Product);
+            return View(model);
+
         }
 
-        // GET: ProductController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            var response = await _product.Delete(id);
+            if(response) return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: ProductController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

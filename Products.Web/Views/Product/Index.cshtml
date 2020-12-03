@@ -1,19 +1,50 @@
 ﻿@model Products.Web.Models.ProductIndexModelList
 
 <div>
-    @foreach(var product in Model.ProductList)
-    {
-    <a asp-controller="Product" asp-action="Update" asp-route-id="@product.ProductId">
-        <p style="margin-bottom: 10px">
-            @product.CategoryName
-            @product.Cost
-            @product.Description
-            @product.ProductName
-            @product.ManufacturerName
-            @product.ProductId
-        </p>
-    </a>
-        
-    }
-    <a asp-controller="Product" asp-action="Create" >Dodaj proizvod</a>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Naziv proizvoda</th>
+                <th>Cena</th>
+                <th>Kategorija</th>
+                <th>Proizvodjac</th>
+                <th>Dobavljac</th>
+                <th>Izmeni/obrisi</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.ProductList)
+            {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>@product.Cost</td>
+                <td>@product.CategoryName</td>
+                <td>@product.SupplierName</td>
+                <td>@product.ManufacturerName</td>
+                <td>
+                    <a asp-controller="Product" asp-action="Update" asp-route-id="@product.ProductId">
+                    <button class="btn btn-info btn-sm">Izmeni </button>
+                    </a>
+                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductId">
+                        <button class="btn btn-danger btn-sm">Obrisi </button>
+                    </a>
+
+                </td>
+
+
+            </tr>
+            }
+        </tbody>
+    </table>
+    
 </div>
+<div>
+    <a asp-controller="Product" asp-action="Create">Dodaj proizvod</a>
+</div>
+
+@section Scripts {
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+}
