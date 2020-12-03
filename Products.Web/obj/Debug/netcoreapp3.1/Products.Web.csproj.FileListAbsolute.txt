@@ -86,3 +86,5 @@ C:\Users\PC\source\repos\Products\Products.Web\bin\Debug\netcoreapp3.1\AutoMappe
 C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Index.cshtml.g.cs
 C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Create.cshtml.g.cs
 C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Update.cshtml.g.cs
+C:\Users\PC\source\repos\Products\Products.Web\bin\Debug\netcoreapp3.1\Products.ServicesJSON.dll
+C:\Users\PC\source\repos\Products\Products.Web\bin\Debug\netcoreapp3.1\Products.ServicesJSON.pdb

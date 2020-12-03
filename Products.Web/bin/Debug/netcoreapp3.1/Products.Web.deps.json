@@ -30,6 +30,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "5.0.0",
           "Products.Data": "1.0.0",
           "Products.Services": "1.0.0",
+          "Products.ServicesJSON": "1.0.0",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "3.1.0.0",
@@ -1436,6 +1437,17 @@
         },
         "compile": {
           "Products.Services.dll": {}
+        }
+      },
+      "Products.ServicesJSON/1.0.0": {
+        "dependencies": {
+          "Products.Data": "1.0.0"
+        },
+        "runtime": {
+          "Products.ServicesJSON.dll": {}
+        },
+        "compile": {
+          "Products.ServicesJSON.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/3.1.0.0": {
@@ -3765,6 +3777,11 @@
       "sha512": ""
     },
     "Products.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Products.ServicesJSON/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

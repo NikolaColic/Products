@@ -18,7 +18,6 @@ namespace Products.Web.Controllers
         private IDataService<Category> _category;
         private IDataService<Manufacturer> _manufacturer;
         private IDataService<Supplier> _supplier;
-
         private IMapper _mapper;
         public ProductController(IDataService<Product> product, IMapper mapper, IDataService<Category> category,
             IDataService<Manufacturer> manufacturer, IDataService<Supplier> supplier)

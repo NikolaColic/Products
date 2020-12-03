@@ -10,6 +10,7 @@ using Products.Data.Context;
 using Products.Data.Entities;
 using Products.Data.Interfaces;
 using Products.Services.Services;
+using Products.ServicesJSON.Services;
 using Products.Web.Help;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,8 @@ namespace Products.Web
             services.AddScoped<IDataService<Category>, CategoryServices>();
             services.AddScoped<IDataService<Manufacturer>, ManufacturerServices>();
             services.AddScoped<IDataService<Supplier>, SupplierServices>();
+            services.AddScoped<IJsonService<Category>,CategoryJsonServices>();
+
 
         }
 

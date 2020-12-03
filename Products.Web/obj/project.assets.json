@@ -1567,6 +1567,19 @@
         "runtime": {
           "bin/placeholder/Products.Services.dll": {}
         }
+      },
+      "Products.ServicesJSON/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Products.Data": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Products.ServicesJSON.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Products.ServicesJSON.dll": {}
+        }
       }
     }
   },
@@ -5876,6 +5889,11 @@
       "type": "project",
       "path": "../Products.Services/Products.Services.csproj",
       "msbuildProject": "../Products.Services/Products.Services.csproj"
+    },
+    "Products.ServicesJSON/1.0.0": {
+      "type": "project",
+      "path": "../Products.ServicesJSON/Products.ServicesJSON.csproj",
+      "msbuildProject": "../Products.ServicesJSON/Products.ServicesJSON.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5885,7 +5903,8 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.0",
       "Products.Data >= 1.0.0",
-      "Products.Services >= 1.0.0"
+      "Products.Services >= 1.0.0",
+      "Products.ServicesJSON >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5924,6 +5943,9 @@
           "projectReferences": {
             "C:\\Users\\PC\\source\\repos\\Products\\Products.Data\\Products.Data.csproj": {
               "projectPath": "C:\\Users\\PC\\source\\repos\\Products\\Products.Data\\Products.Data.csproj"
+            },
+            "C:\\Users\\PC\\source\\repos\\Products\\Products.ServicesJSON\\Products.ServicesJSON.csproj": {
+              "projectPath": "C:\\Users\\PC\\source\\repos\\Products\\Products.ServicesJSON\\Products.ServicesJSON.csproj"
             },
             "C:\\Users\\PC\\source\\repos\\Products\\Products.Services\\Products.Services.csproj": {
               "projectPath": "C:\\Users\\PC\\source\\repos\\Products\\Products.Services\\Products.Services.csproj"
