@@ -1,3 +1,16 @@
-{
-
-}
+[
+  {
+    "Id": 1,
+    "ManufacturerName": "SBB",
+    "Email": "sbb@gmail.com",
+    "WebSiteUrl": "fasfaf",
+    "Mobile": "papa"
+  },
+  {
+    "Id": 2,
+    "ManufacturerName": "Telenor",
+    "Email": "telenor@gmail.com",
+    "WebSiteUrl": "fasfaffsfsdf",
+    "Mobile": "papafssfs"
+  }
+]

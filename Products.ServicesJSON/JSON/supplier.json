@@ -1,3 +1,16 @@
-{
-
-}
+[
+  {
+    "SupplierId": 1,
+    "SupplierName": "Gigatron",
+    "Adress": "Nikole Pasica 5",
+    "Mobile": "0ofsdfdsfs",
+    "Email": "gigatron@gmail.com"
+  },
+  {
+    "SupplierId": 2,
+    "SupplierName": "Tehnomanija",
+    "Adress": "Bulevar oslobodjenja",
+    "Mobile": "0ofsdfdsfs",
+    "Email": "tehnomanija@gmail.com"
+  }
+]

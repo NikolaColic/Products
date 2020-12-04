@@ -38,9 +38,10 @@ namespace Products.Web
             services.AddScoped<IDataService<Category>, CategoryServices>();
             services.AddScoped<IDataService<Manufacturer>, ManufacturerServices>();
             services.AddScoped<IDataService<Supplier>, SupplierServices>();
-            services.AddScoped<IJsonService<Category>,CategoryJsonServices>();
-
-
+            services.AddScoped<IJsonService<Category>,CategoryJsonService>();
+            services.AddScoped<IJsonService<Product>, ProductJsonService>();
+            services.AddScoped<IJsonService<Manufacturer>, ManufacturerJsonService>();
+            services.AddScoped<IJsonService<Supplier>, SupplierJsonService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

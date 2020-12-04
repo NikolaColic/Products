@@ -23,17 +23,18 @@
     
 }
 .opste {
-    min-height: 780px;
+    min-height: 850px;
     background-color: #d9b08c;
     opacity: 0.85;
     padding-left: 5%;
     padding-right: 5%;
-    padding-top: 5%;
+    padding-top: 6%;
     word-wrap: break-word;
     font-family: 'Open Sans', sans-serif;
     letter-spacing: 1px;
     word-spacing: 1px;
     font-weight: 700;
+    margin-bottom:-1%;
 }
 .body {
     width: 100%;
@@ -41,7 +42,9 @@
     background-size: 100% auto;
     background-position: center;
     background-repeat: no-repeat;
-    min-height:780px;
+    /*min-height:850px;*/
+    height: auto;
+   
 }
 
 .dodajProizvod {
@@ -64,10 +67,8 @@
     font-weight: 900;
     
 }
-.footer {
-    color: white;
-    font-size: 15px;
-    font-weight: 900;
-    letter-spacing: 2px;
-}
+
+
+
+
 

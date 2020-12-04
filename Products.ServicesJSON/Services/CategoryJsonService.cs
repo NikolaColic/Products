@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Products.ServicesJSON.Services
 {
-    public class CategoryJsonServices : IJsonService<Category>
+    public class CategoryJsonService : IJsonService<Category>
 
     {
         public Task<bool> Add(Category obj)
@@ -24,8 +24,15 @@ namespace Products.ServicesJSON.Services
 
         public async Task<IEnumerable<Category>> GetAll()
         {
-            var lista = LoadJson();
-            return lista;
+            try
+            {
+                var categoryList = await LoadJson();
+                return categoryList;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public Task<Category> GetById(int id)
@@ -33,11 +40,11 @@ namespace Products.ServicesJSON.Services
             throw new NotImplementedException();
         }
 
-        public List<Category> LoadJson()
+        public async Task<List<Category>> LoadJson()
         {
             using (StreamReader r = new StreamReader("../Products.ServicesJSON/JSON/category.json"))
             {
-                string json = r.ReadToEnd();
+                string json = await r.ReadToEndAsync();
                 List<Category> items = JsonConvert.DeserializeObject<List<Category>>(json);
                 return items;
             }

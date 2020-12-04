@@ -1,0 +1,94 @@
+﻿@model Products.Web.Models.ProductCreateModel
+
+<div class="opste">
+
+    <form asp-controller="ProductJson" asp-action="Update" method="post" class="form-create">
+        <div class="title">
+            Izmeni proizvod
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-3">
+                    <label asp-for="Product.ProductName"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="Product.ProductName" class="form-control" />
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label asp-for="Product.Description"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="Product.Description" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label asp-for="Product.Cost"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="Product.Cost" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label asp-for="Product.Category"></label>
+                </div>
+                <div class="col-sm-5">
+                    <select asp-for="Product.Category.CategoryId" class="form-control">
+                        @foreach (var categ in Model.Categories)
+                        {
+                            <option value="@categ.CategoryId"> @categ.Name</option>
+                        }
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <label asp-for="Product.Manufacturer"></label>
+                </div>
+                <div class="col-sm-5">
+                    <select asp-for="Product.Manufacturer.Id" class="form-control">
+                        @foreach (var categ in Model.Manufactureres)
+                        {
+                            <option value="@categ.Id"> @categ.ManufacturerName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label asp-for="Product.Supplier"></label>
+                </div>
+                <div class="col-sm-5">
+                    <select asp-for="Product.Supplier.SupplierId" class="form-control">
+                        @foreach (var categ in Model.Suppliers)
+                        {
+                            <option value="@categ.SupplierId"> @categ.SupplierName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" asp-controller="ProductJson" asp-action="Index" value="Vrati se" class="btn btn-info createButton" />
+            <input type="submit" value="Izmeni" class="btn btn-info createButton" />
+
+        </div>
+        <div class="title-text">
+            @if (!(Model.Validate is null))
+            {
+                @Model.Validate.Poruka
+            }
+        </div>
+
+    </form>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/create.css" />
+}

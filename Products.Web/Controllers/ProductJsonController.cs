@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace Products.Web.Controllers
 {
-    public class ProductController : Controller
+    public class ProductJsonController : Controller
     {
-        private IDataService<Product> _product;
-        private IDataService<Category> _category;
-        private IDataService<Manufacturer> _manufacturer;
-        private IDataService<Supplier> _supplier;
+        private IJsonService<Product> _product;
+        private IJsonService<Category> _category;
+        private IJsonService<Manufacturer> _manufacturer;
+        private IJsonService<Supplier> _supplier;
         private IMapper _mapper;
-        public ProductController(IDataService<Product> product, IMapper mapper, IDataService<Category> category,
-            IDataService<Manufacturer> manufacturer, IDataService<Supplier> supplier)
+        public ProductJsonController(IJsonService<Product> product, IMapper mapper, IJsonService<Category> category,
+            IJsonService<Manufacturer> manufacturer, IJsonService<Supplier> supplier)
         {
             _product = product;
             _mapper = mapper;
@@ -29,11 +29,10 @@ namespace Products.Web.Controllers
             _supplier = supplier;
 
         }
-        // GET: ProductController
         public async Task<ActionResult<ProductIndexModelList>> Index()
         {
             var products = await _product.GetAll();
-            if(products is null || products.Count() == 0)
+            if (products is null || products.Count() == 0)
             {
                 var modelError = new ProductIndexModelList() { Validate = new ValidateModel { Poruka = "Lose ucitani proizvodi", Signal = false } };
                 return View(modelError);
@@ -41,13 +40,12 @@ namespace Products.Web.Controllers
             var model = CreateIndexModel(products);
             return View(model);
         }
-     
-        public async Task<ActionResult<ProductCreateModel>>Create()
+        public async Task<ActionResult<ProductCreateModel>> Create()
         {
             var model = await CreateProductModel(new Product());
             return View(model);
         }
-      
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -57,14 +55,16 @@ namespace Products.Web.Controllers
             var model = await CreateProductModel(productCreate.Product);
             if (!Validation.Instance.ValidateProduct(productCreate.Product))
             {
-                model.Validate = new ValidateModel() { Poruka = "Pogresno ste unenli neku vrednost", Signal = false };
+                model.Validate = new ValidateModel() { Poruka = "Pogresno ste uneli neku vrednost", Signal = false };
                 return View(model);
             }
-            if (!(await ProductNameExist(productCreate.Product.ProductName,0)))
+            if (!(await ProductNameExist(productCreate.Product.ProductName, 0)))
             {
                 model.Validate = new ValidateModel() { Poruka = "Postoji vec proizvod sa datim imenom!", Signal = false };
                 return View(model);
             }
+
+            productCreate.Product = await CreateProduct(productCreate.Product); 
             var response = await _product.Add(productCreate.Product);
 
             if (!response)
@@ -76,7 +76,6 @@ namespace Products.Web.Controllers
             return View(model);
         }
 
-       
         public async Task<ActionResult> Update(int id)
         {
             var product = await _product.GetById(id);
@@ -93,7 +92,7 @@ namespace Products.Web.Controllers
 
             if (!Validation.Instance.ValidateProduct(productCreate.Product))
             {
-                model.Validate = new ValidateModel() { Poruka = "Pogresno ste uneli neku vrednost", Signal = false };
+                model.Validate = new ValidateModel() { Poruka = "Pogresno ste unenli neku vrednost", Signal = false };
                 return View(model);
             }
             if (!(await ProductNameExist(productCreate.Product.ProductName, id)))
@@ -102,7 +101,9 @@ namespace Products.Web.Controllers
                 return View(model);
             }
 
+            productCreate.Product = await CreateProduct(productCreate.Product);
             var response = await _product.Update(productCreate.Product);
+
             if (!response)
             {
                 model.Validate = new ValidateModel() { Poruka = "Doslo je do greske prilikom izmene proizvoda!", Signal = false };
@@ -117,24 +118,9 @@ namespace Products.Web.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var response = await _product.Delete(id);
-            if(response) return RedirectToAction(nameof(Index));
+            if (response) return RedirectToAction(nameof(Index));
             return RedirectToAction(nameof(Index));
         }
-        [HttpGet]
-        public async Task<ActionResult<ProductIndexModelList>> Search(string value)
-        {
-            var products = await _product.GetAll();
-            if (products is null || products.Count() == 0)
-            {
-                var modelError = new ProductIndexModelList() { Validate = new ValidateModel { Poruka = "Lose ucitani proizvodi", Signal = false } };
-                return View(modelError);
-            }
-            products = products.Where((prod) => prod.ProductName.ToLower().Contains(value.ToLower())); 
-            var model = CreateIndexModel(products);
-            return PartialView("Search", model);
-        }
-
-
         //Ispod su prikazane funkcije za kreiranje modela i proveru da li proizvod postoji u bazi
         private async Task<bool> ProductNameExist(string name, int? id)
         {
@@ -142,6 +128,40 @@ namespace Products.Web.Controllers
             var product = products.SingleOrDefault((prod) => prod.ProductName == name && prod.ProductId != id);
             if (product is null) return true;
             return false;
+        }
+        private async Task<Product> CreateProduct(Product product)
+        {
+            try
+            {
+                var categoryList = await _category.GetAll();
+                var supplierList = await _supplier.GetAll();
+                var manufacturerList = await _manufacturer.GetAll();
+
+                var category = categoryList.SingleOrDefault((cat) => cat.CategoryId == product.Category.CategoryId);
+                var supplier = supplierList.SingleOrDefault((sup) => sup.SupplierId == product.Supplier.SupplierId);
+                var manufacturer = manufacturerList.SingleOrDefault((man) => man.Id == product.Manufacturer.Id);
+                if (category is null || supplier is null || manufacturer is null) return null;
+                product.Category = category;
+                product.Supplier = supplier;
+                product.Manufacturer = manufacturer;
+                return product;
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        private ProductIndexModelList CreateIndexModel(IEnumerable<Product> products)
+        {
+            var productList = new List<ProductIndexModel>();
+            foreach (var product in products)
+            {
+                var productModel = _mapper.Map<Product, ProductIndexModel>(product);
+                productList.Add(productModel);
+            }
+            var model = new ProductIndexModelList() { ProductList = productList };
+            return model;
         }
         private async Task<ProductCreateModel> CreateProductModel(Product product)
         {
@@ -156,17 +176,6 @@ namespace Products.Web.Controllers
                 Suppliers = supplier
             };
             return model;
-        }
-
-        private ProductIndexModelList CreateIndexModel(IEnumerable<Product> products)
-        {
-            var productList = new List<ProductIndexModel>();
-            foreach (var product in products)
-            {
-                var productModel = _mapper.Map<Product, ProductIndexModel>(product);
-                productList.Add(productModel);
-            }
-            return new ProductIndexModelList() { ProductList = productList };
         }
 
     }
