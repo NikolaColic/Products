@@ -90,3 +90,4 @@ C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Vie
 C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\ProductJson\Index.cshtml.g.cs
 C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\ProductJson\Update.cshtml.g.cs
 C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\Product\Search.cshtml.g.cs
+C:\Users\PC\source\repos\Products\Products.Web\obj\Debug\netcoreapp3.1\Razor\Views\ProductJson\Sort.cshtml.g.cs

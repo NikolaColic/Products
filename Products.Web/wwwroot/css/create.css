@@ -2,16 +2,16 @@
     min-height: 900px;
     background-color: #116466;
     opacity: 0.85;
-    align-content:center;
+    align-content: center;
     padding-left: 30%;
     padding-right: 15%;
     padding-top: 10%;
     font-family: 'Open Sans', sans-serif;
-    font-size:18px;
+    font-size: 18px;
     letter-spacing: 1.5px;
     word-spacing: 1px;
     font-weight: 800;
-    
+    margin-bottom: -1%;
 }
 * {
     margin: 0px;

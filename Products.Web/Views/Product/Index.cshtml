@@ -11,9 +11,9 @@
         <div class="col col-sm-3">
             <input type="text" id="txtSearchProduct" class="form-control" />
         </div>
-        <div class="col col-sm-5" style="margin-left:2%">
-            <input type="submit" id="btnSearchProduct" class="btn btn-info" value="Pretrazi" />
-            <a asp-controller="Product" asp-action="Index" class="btn btn-success">Resetuj</a>
+        <div class="col col-sm-5" style="margin-left:1%">
+            <input type="submit" id="btnSearchProduct" class="btn btn-info" value="Pretrazi" style="background-color:#116466; height:35px; width:20%" />
+            <a asp-controller="Product" asp-action="Index" class="btn btn-success" style="width: 20%" >Resetuj</a>
 
         </div>
     </div>
@@ -35,38 +35,42 @@
                 {
                     @foreach (var product in Model.ProductList)
                     {
-                        <tr>
-                            <td>@product.ProductName</td>
-                            <td>@product.Cost</td>
-                            <td>@product.CategoryName</td>
-                            <td>@product.SupplierName</td>
-                            <td>@product.ManufacturerName</td>
-                            <td>
-                                <a asp-controller="Product" asp-action="Update" asp-route-id="@product.ProductId">
-                                    <button class="btn btn-info btn-sm" style="background-color:#116466">Izmeni </button>
-                                </a>
-                                <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductId">
-                                    <button class="btn btn-danger btn-sm">Obrisi </button>
-                                </a>
+                <tr>
+                    <td>@product.ProductName</td>
+                    <td>@product.Cost</td>
+                    <td>@product.CategoryName</td>
+                    <td>@product.ManufacturerName</td>
+                    <td>@product.SupplierName</td>
 
-                            </td>
+                    <td>
+                        <a asp-controller="Product" asp-action="Update" asp-route-id="@product.ProductId"
+                           class="btn btn-info btn-sm" style="background-color:#116466">
+                            Izmeni
+                        </a>
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.ProductId"
+                           class="btn btn-danger btn-sm">
+                          Obrisi 
+                        </a>
+                    </td>
 
 
-                        </tr>
+                </tr>
                     }}
             </tbody>
         </table>
 
     </div>
     <div class="dodajProizvod">
-        <a asp-controller="Product" asp-action="Create">
-            <button class="btn btn-info" style="background-color:#116466; height:35px">Dodaj proizvod</button>
+        <a asp-controller="Product" asp-action="Create"
+           class="btn btn-info" style="background-color:#116466; height:35px"
+           >
+            Dodaj proizvod
         </a>
     </div>
-    <div style="margin-top:1%; color:#116466">
+    <div class="title-text">
         @if (!(Model.Validate is null))
         {
-            <h5>@Model.Validate.Poruka</h5>
+            @Model.Validate.Poruka
         }
     </div>
 </div>

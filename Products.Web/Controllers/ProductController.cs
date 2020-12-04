@@ -30,7 +30,7 @@ namespace Products.Web.Controllers
 
         }
         // GET: ProductController
-        public async Task<ActionResult<ProductIndexModelList>> Index()
+        public async Task<ActionResult<ProductIndexModelList>> Index(string? poruka = "")
         {
             var products = await _product.GetAll();
             if(products is null || products.Count() == 0)
@@ -39,12 +39,14 @@ namespace Products.Web.Controllers
                 return View(modelError);
             }
             var model = CreateIndexModel(products);
+            model.Validate = new ValidateModel() { Poruka = poruka};
             return View(model);
         }
      
         public async Task<ActionResult<ProductCreateModel>>Create()
         {
             var model = await CreateProductModel(new Product());
+            if (model is null) return RedirectToAction(nameof(Index), new { poruka = "Greska"});
             return View(model);
         }
       
@@ -57,7 +59,7 @@ namespace Products.Web.Controllers
             var model = await CreateProductModel(productCreate.Product);
             if (!Validation.Instance.ValidateProduct(productCreate.Product))
             {
-                model.Validate = new ValidateModel() { Poruka = "Pogresno ste unenli neku vrednost", Signal = false };
+                model.Validate = new ValidateModel() { Poruka = "Pogresno ste uneli neku vrednost", Signal = false };
                 return View(model);
             }
             if (!(await ProductNameExist(productCreate.Product.ProductName,0)))
@@ -81,6 +83,7 @@ namespace Products.Web.Controllers
         {
             var product = await _product.GetById(id);
             var model = await CreateProductModel(product);
+            if (model is null) return RedirectToAction(nameof(Index), new { poruka = "Doslo je do greske" });
             return View(model);
         }
 
@@ -118,17 +121,19 @@ namespace Products.Web.Controllers
         {
             var response = await _product.Delete(id);
             if(response) return RedirectToAction(nameof(Index));
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index),new { poruka = "Doslo je do greske prilikom brisanja proizvoda"});
         }
         [HttpGet]
         public async Task<ActionResult<ProductIndexModelList>> Search(string value)
         {
+
             var products = await _product.GetAll();
             if (products is null || products.Count() == 0)
             {
                 var modelError = new ProductIndexModelList() { Validate = new ValidateModel { Poruka = "Lose ucitani proizvodi", Signal = false } };
-                return View(modelError);
-            }
+                return RedirectToAction(nameof(Index), new { poruka = "Doslo je do greske prilikom pretrage" });
+            };
+            if (value is null) value = "";
             products = products.Where((prod) => prod.ProductName.ToLower().Contains(value.ToLower())); 
             var model = CreateIndexModel(products);
             return PartialView("Search", model);
@@ -139,6 +144,7 @@ namespace Products.Web.Controllers
         private async Task<bool> ProductNameExist(string name, int? id)
         {
             var products = await _product.GetAll();
+            if (products is null) return false;
             var product = products.SingleOrDefault((prod) => prod.ProductName == name && prod.ProductId != id);
             if (product is null) return true;
             return false;
@@ -148,6 +154,7 @@ namespace Products.Web.Controllers
             var category = await _category.GetAll();
             var supplier = await _supplier.GetAll();
             var manufacturer = await _manufacturer.GetAll();
+            if (category is null || supplier is null || manufacturer is null) return null;
             var model = new ProductCreateModel()
             {
                 Categories = category,

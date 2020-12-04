@@ -30,3 +30,30 @@ function SearchProduct(vrednost) {
 
 
 }
+
+$('#btnSort').on('click', function (e) {
+    var filter = $('#sortID').val();
+
+    SortProductJson(filter);
+});
+function SortProductJson(vrednost) {
+
+
+    $.ajax({
+        type: 'POST',
+        url: '/ProductJson/Sort',
+        data: { value: vrednost },
+        cache: false,
+        dataType: "html",
+        success: function (result) {
+
+            $('.tableMain2').html(result);
+        },
+
+    })
+        .fail(function (xhr) {
+            console.log('error : ' + xhr.status + ' - ' + xhr.statusText + ' - ' + xhr.responseText);
+        });
+
+
+}
